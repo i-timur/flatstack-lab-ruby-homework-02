@@ -14,9 +14,9 @@ while dec != "q" do
 
       filename = gets.chomp
       
-      wasSuccessful = system("gpg -e -r #{username} #{filename}")
+      was_successfull = system("gpg -e -r #{username} #{filename}")
       
-      if wasSuccessful 
+      if was_successfull 
         puts "Successfully encrypted #{filename}"
       else
         puts "Such file doesn`t exist"
@@ -26,9 +26,9 @@ while dec != "q" do
 
       filename = gets.chomp
 
-      wasSuccessful = system("gpg -d -o #{filename.slice(0, filename.length - 4)} #{filename}")
+      was_successfull = system("gpg -d -o #{filename.slice(0, filename.length - 4)} #{filename}")
 
-      if wasSuccessful
+      if was_successfull
         puts "Successfully decrypted #{filename}"
       else 
         puts "Such file doesn`t exist"

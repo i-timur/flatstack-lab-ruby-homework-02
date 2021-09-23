@@ -12,27 +12,8 @@ end
 
 class Game
   def initialize
-    @questions = Array.new
-    parseQuestions
-  end
-
-  def parseQuestions
-    url = "https://baza-otvetov.ru/categories/view/9/"
-    document = Nokogiri::HTML(open(url))
-
-    questions = document.css(".tooltip a")
-    answers = document.css(".tooltip td:nth-child(3)")
-    10.times do |i|
-      @questions.push(Question.new(questions[i].text, answers[i].text))
-    end
-    22.times do |i| 
-      doc = Nokogiri::HTML(open("#{url}#{(i+1) * 10}"))
-      que = doc.css(".tooltip a")
-      ans = doc.css(".tooltip td:nth-child(3)")
-      10.times do |i|
-        @questions.push(Question.new(que[i].text, ans[i].text))
-      end
-    end
+    @questions = []
+    parse_questions
   end
 
   def start
@@ -56,6 +37,29 @@ class Game
       start
     end
   end
+
+  private
+
+  def parse_questions
+    url = "https://baza-otvetov.ru/categories/view/9/"
+    document = Nokogiri::HTML(open(url))
+
+    questions = document.css(".tooltip a")
+    answers = document.css(".tooltip td:nth-child(3)")
+    10.times do |i|
+      @questions.push(Question.new(questions[i].text, answers[i].text))
+    end
+    22.times do |i| 
+      doc = Nokogiri::HTML(open("#{url}#{(i+1) * 10}"))
+      que = doc.css(".tooltip a")
+      ans = doc.css(".tooltip td:nth-child(3)")
+      10.times do |i|
+        @questions.push(Question.new(que[i].text, ans[i].text))
+      end
+    end
+  end
+
+  
 end
 
 Game.new.start
